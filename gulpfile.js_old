@@ -1,0 +1,47 @@
+'use strict';
+
+/* параметры для gulp-autoprefixer */
+var autoprefixerList = [
+    'Chrome >= 45',
+    'Firefox ESR',
+    'Edge >= 12',
+    'Explorer >= 10',
+    'iOS >= 9',
+    'Safari >= 9',
+    'Android >= 4.4',
+    'Opera >= 30'
+];
+
+
+/* настройки сервера*/
+var config = {
+    proxy: "https://rul-reika.dev",
+    notify: false
+}; 
+
+
+
+/* подключаем gulp и плагины */
+var gulp = require('gulp'),  // подключаем Gulp
+    webserver = require('browser-sync') // сервер для работы и автоматического обновления страниц
+
+// запуск сервера
+gulp.task('browser-sync', function () {
+    webserver(config);
+}); 
+
+/* задачи */
+gulp.task('watch', function (){
+    gulp.watch("webroot/**/*.css").on('change', webserver.reload);
+    gulp.watch("src/**/*.ctp").on('change', webserver.reload);
+    gulp.watch("src/**/*.php").on('change', webserver.reload);
+})
+
+
+// задача по умолчанию
+gulp.task('default', gulp.parallel('browser-sync','watch'));
+
+
+
+
+
